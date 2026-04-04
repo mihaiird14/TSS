@@ -106,10 +106,4 @@ b) Frontiera suprapunerii (Regula: Fără conflict cu [10:00 - 11:00])
    D1T1L2
    D1T1L3
 
-   8 cazuri de testare
-
 7. *Creează date de test*
-
-
-| MONDAY | 09:30 | 10:30 | [09:00-10:00] | Conflict: Există deja un interval setat în această perioadă. |
-| MONDAY | 11:30 | 13:00 | [12:00-14:00] | Conflict: Există deja un interval setat în această perioadă. |
