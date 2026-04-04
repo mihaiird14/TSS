@@ -71,17 +71,18 @@ b) Frontiera suprapunerii (Regula: Fără conflict cu [10:00 - 11:00])
 ### 3. Partiţionarea în categorii (Category-Partitioning)
 
 1. *Descompune specificația în unități:* avem o singură unitate (metoda `addAvailability`).
-2. *Identifică parametrii și condițiile de mediu:* * Parametri: `D` (dayOfWeek), `S` (startTime), `E` (endTime).
+2. *Identifică parametrii și condițiile de mediu:*
+   * Parametri: `D` (dayOfWeek), `S` (startTime), `E` (endTime).
    * Condiții de mediu: `L` (lista de disponibilități existentă).
-3. *Găsește categorii:*
+4. *Găsește categorii:*
    * `D`: dacă este validă, null sau are format invalid
    * `T` (timp): relația dintre `S` și `E` (dacă este validă, invalidă sau cu date lipsă)
    * `L` (mediu): dacă există suprapunere cu noul interval sau nu
-4. *Partiționează fiecare categorie în alternative:*
+5. *Partiționează fiecare categorie în alternative:*
    * `D`: valid, null, invalid
    * `T`: S < E, S = E, S > E, null
    * `L`: fără suprapunere, suprapunere la început, suprapunere la sfârșit
-5. *Scrie specificația de testare*
+6. *Scrie specificația de testare*
    * *D*
       1) { valid } `[ok]`
       2) { null } `[error]`
@@ -96,7 +97,7 @@ b) Frontiera suprapunerii (Regula: Fără conflict cu [10:00 - 11:00])
       2) { suprapunere la început } `[if ok]`
       3) { suprapunere la sfârșit } `[if ok]`
 
-6. *Creează cazuri de testare*
+7. *Creează cazuri de testare*
    D2
    D3
    D1T2
@@ -106,4 +107,4 @@ b) Frontiera suprapunerii (Regula: Fără conflict cu [10:00 - 11:00])
    D1T1L2
    D1T1L3
 
-7. *Creează date de test*
+8. *Creează date de test*
