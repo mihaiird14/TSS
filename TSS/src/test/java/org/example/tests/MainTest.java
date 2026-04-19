@@ -22,6 +22,10 @@ public class MainTest {
     // G1: D1 (Valid), T1 (Valid), C1 (Nu exista conflict)
     @Test
     public void testG1_ValidDay_ValidTime_NoConflict() {
+        // Adăugăm un interval într-o altă zi pentru a parcurge ramura "if
+        // (!t.getDayOfWeek().equals(...))"
+        app.addAvailability(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));
+
         String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));
         assertEquals("Succes: Intervalul a fost adăugat.", result);
     }
@@ -30,7 +34,10 @@ public class MainTest {
     @Test
     public void testG2_ValidDay_ValidTime_WithConflict() {
         app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));
-        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(10, 30));
+
+        // Modificăm testul să aibă exact aceeași oră de start pentru a atinge a 3-a
+        // condiție din conflict logic
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0));
         assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
     }
 
@@ -165,4 +172,8 @@ public class MainTest {
             app.addAvailability(DayOfWeek.valueOf("Abc"), LocalTime.of(9, 30), null);
         });
     }
+
+    // --- Partea 2: Analiza valorilor de frontieră (Boundary Value Analysis) ---
+    // Total 6 teste - interval existent: 10:00 - 11:00
+
 }
