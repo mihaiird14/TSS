@@ -99,12 +99,17 @@ b) Frontiera suprapunerii (Regula: Fără conflict cu [10:00 - 11:00])
 
 7. *Creează cazuri de testare*
    D2
+   
    D3
+   
    D1T2
+   
    D1T3
+   
    D1T4
+   
    D1T1L1
+   
    D1T1L2
+   
    D1T1L3
-
-8. *Creează date de test*
