@@ -22,7 +22,15 @@ public class TestMutanti {
         String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(10, 0));
         assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
     }
+    /*
+    @Test
+    public void test() {
+        app.addAvailability(FRIDAY, 10:00, 12:00);
+        String result = app.addAvailability(FRIDAY, 9:00, 11:59);
+        assertEquals("Conflict...", result);
+    }
 
+    */
     @Test
     public void testMutant2_Reparat_KillIsBeforeEndTime() {
         // Omoară linia 16: return eroare dayOfWeek
