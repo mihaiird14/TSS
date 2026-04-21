@@ -2,7 +2,7 @@
 
 | | |
 |:--|:--|
-| [Prezentare](#) | [Demo](#) |
+| [Prezentare](./prezentare.pptx) | [Demo](#) |
 | [Raport AI](./RaportAI.md) | [Testare funcțională](./TestareFunctionala.md) |
 | [Testare structurală](./testareStructurala.md) | |
 
