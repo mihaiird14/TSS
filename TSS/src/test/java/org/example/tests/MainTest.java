@@ -311,6 +311,24 @@ public class MainTest {
         assertEquals("Succes: Intervalul a fost adăugat.", result);
     }
 
+    // --- Partea1: Acoperire la nivel de instrucțiune (Statement Coverage) ---
+
+    @Test
+    public void testStructural_T1_Conflict() {
+        //testu 1
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0));
+        
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
+        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
+
+    @Test
+    public void testStructural_T2_Succes_ListaGoala() {
+        //testu2
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
     // --- Partea 5: Analiza si Omorârea Mutanților ---
 
     /*
