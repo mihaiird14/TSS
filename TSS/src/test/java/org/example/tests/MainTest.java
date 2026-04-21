@@ -331,8 +331,8 @@ public class MainTest {
     @Test
     public void testMutant_Reparat_KillEqualStartTime() {
         app.addAvailability(DayOfWeek.THURSDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
-        // startTime-uri identice:
-        String result = app.addAvailability(DayOfWeek.THURSDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        // startTime-uri identice, endTime mai mare (invalidând celelalte conjuncții logice):
+        String result = app.addAvailability(DayOfWeek.THURSDAY, LocalTime.of(10, 0), LocalTime.of(13, 0));
         assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
     }
 
