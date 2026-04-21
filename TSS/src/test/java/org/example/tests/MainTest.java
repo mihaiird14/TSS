@@ -3,7 +3,6 @@ package org.example.tests;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-import org.example.Availability;
 import org.example.Main;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
@@ -262,6 +261,66 @@ public class MainTest {
         assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
     }
 
+
+
+    //Structural Testing
+
+
+    // --- Partea1: Acoperire la nivel de instrucțiune (Statement Coverage) ---
+
+    @Test
+    public void testStructural_T1_Conflict() {
+        //testu 1
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0));
+        
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
+        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
+
+    @Test
+    public void testStructural_T2_Succes_ListaGoala() {
+        //testu2
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
+
+    // --- Partea 2: Acoperire la nivel de decizie (Decision / Branch Coverage) ---
+
+    @Test
+    public void testDC1_D1_True_DayNull() {
+        String result = app.addAvailability(null, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Eroare: Ziua săptămânii este obligatorie.", result);
+    }
+
+    @Test
+    public void testDC2_D1_False_D2_True_InvalidInterval() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(10, 0));
+        assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
+    }
+
+    @Test
+    public void testDC3_D3_False_D6_False_EmptyListSuccess() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
+    @Test
+    public void testDC4_D4_True_D5_True_D6_True_Conflict() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(13, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
+        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
+
+    @Test
+    public void testDC5_D4_False_ThenD3_False_D6_False_Success() {
+        app.addAvailability(DayOfWeek.TUESDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
+
+
     // --- Partea 4: Testarea circuitelor independente ---
 
     @Test
@@ -307,24 +366,6 @@ public class MainTest {
     public void testIP7_Path7_TwoIterationsDifferentThenSameNoOverlap() {
         app.addAvailability(DayOfWeek.TUESDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
         app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(14, 0), LocalTime.of(16, 0));
-        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
-        assertEquals("Succes: Intervalul a fost adăugat.", result);
-    }
-
-    // --- Partea1: Acoperire la nivel de instrucțiune (Statement Coverage) ---
-
-    @Test
-    public void testStructural_T1_Conflict() {
-        //testu 1
-        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0));
-        
-        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
-        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
-    }
-
-    @Test
-    public void testStructural_T2_Succes_ListaGoala() {
-        //testu2
         String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
         assertEquals("Succes: Intervalul a fost adăugat.", result);
     }
