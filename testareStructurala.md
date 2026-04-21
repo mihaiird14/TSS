@@ -38,8 +38,8 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N
 
 | ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Noduri parcurși | Rezultat așteptat |
 |:---|:------------|:------------|:----------|:------------|:----------------|:------------------|
-| T1 | | | | | N1, N3, N5, N6, N7, N8, N9 | |
-| T2 | | | | | N1, N3, N5, N8, N10 | |
+| T1 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 09:00 - 11:00]` | N1, N3, N5, N6, N7, N8, N9 | `Conflict: Există deja...` |
+| T2 | `MONDAY` | `10:00` | `11:00` | `[]` (Goală) | N1, N3, N5, N8, N10 | `Succes: Intervalul a...` |
 
 ---
 
@@ -60,11 +60,11 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N
 
 | ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Decizii acoperite | Rezultat așteptat |
 |:---|:------------|:------------|:----------|:------------|:------------------|:------------------|
-| DC1 | | | | | D1→adevărat | |
-| DC2 | | | | | D1→fals, D2→adevărat | |
-| DC3 | | | | | D1→fals, D2→fals, D3→fals, D6→fals | |
-| DC4 | | | | | D3→adevărat, D4→adevărat, D5→adevărat, D6→adevărat | |
-| DC5 | | | | | D3→adevărat, D4→fals, D3→fals, D6→fals | |
+| DC1 | `null` | `10:00` | `11:00` | `[]` | D1→adevărat | `Eroare: Ziua...` |
+| DC2 | `MONDAY` | `11:00` | `10:00` | `[]` | D1→fals, D2→adevărat | `Eroare: Ora...` |
+| DC3 | `MONDAY` | `10:00` | `11:00` | `[]` | D1→fals, D2→fals, D3→fals, D6→fals | `Succes...` |
+| DC4 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 11:00 - 13:00]` | D3→adevărat, D4→adevărat, D5→adevărat, D6→adevărat | `Conflict...` |
+| DC5 | `MONDAY` | `10:00` | `11:00` | `[TUESDAY 10:00 - 11:00]`| D3→adevărat, D4→fals, D3→fals, D6→fals | `Succes...` |
 
 ---
 
@@ -85,14 +85,14 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N
 
 | ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Condiții acoperite | Rezultat așteptat |
 |:---|:------------|:------------|:----------|:------------|:------------------|:------------------|
-| CC1 | | | | | C1=adevărat | |
-| CC2 | | | | | C1=fals, C2=fals, C3=fals, C4=fals | |
-| CC3 | | | | | C2=adevărat | |
-| CC4 | | | | | C3=adevărat | |
-| CC5 | | | | | C4=adevărat | |
-| CC6 | | | | | C5=adevărat, C6=adevărat, C7=adevărat, C10=adevărat | |
-| CC7 | | | | | C8=adevărat | |
-| CC8 | | | | | C9=adevărat | |
+| CC1 | `null` | `10:00` | `11:00` | `[]` | C1=adevărat | `Eroare: Ziua...` |
+| CC2 | `MONDAY` | `10:00` | `11:00` | `[]` | C1=fals, C2=fals, C3=fals, C4=fals | `Succes...` |
+| CC3 | `MONDAY` | `null` | `11:00` | `[]` | C2=adevărat | `Eroare: Ora...` |
+| CC4 | `MONDAY` | `10:00` | `null` | `[]` | C3=adevărat | `Eroare: Ora...` |
+| CC5 | `MONDAY` | `11:00` | `10:00` | `[]` | C4=adevărat | `Eroare: Ora...` |
+| CC6 | `MONDAY` | `10:00` | `11:00` | `[MONDAY 09:00 - 12:00]`| C5=adevărat, C6=adevărat, C7=adevărat, C10=adevărat | `Conflict...` |
+| CC7 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 11:00 - 13:00]`| C8=adevărat | `Conflict...` |
+| CC8 | `MONDAY` | `10:00` | `11:00` | `[MONDAY 10:00 - 12:00]`| C9=adevărat | `Conflict...` |
 
 ---
 
@@ -127,10 +127,10 @@ Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fie
 
 | ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Cale | Rezultat așteptat |
 |:---|:------------|:------------|:----------|:------------|:-----|:------------------|
-| CP1 | | | | | P1 | |
-| CP2 | | | | | P2 | |
-| CP3 | | | | | P3 | |
-| CP4 | | | | | P4 | |
-| CP5 | | | | | P5 | |
-| CP6 | | | | | P6 | |
-| CP7 | | | | | P7 | |
+| CP1 | `null` | `10:00` | `11:00` | `[]` | P1 | `Eroare: Ziua...` |
+| CP2 | `MONDAY` | `11:00` | `10:00` | `[]` | P2 | `Eroare: Ora...` |
+| CP3 | `MONDAY` | `10:00` | `11:00` | `[]` | P3 | `Succes...` |
+| CP4 | `MONDAY` | `10:00` | `11:00` | `[TUESDAY 10:00 - 11:00]` | P4 | `Succes...` |
+| CP5 | `MONDAY` | `10:00` | `11:00` | `[MONDAY 14:00 - 16:00]` | P5 | `Succes...` |
+| CP6 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 11:00 - 13:00]` | P6 | `Conflict...` |
+| CP7 | `MONDAY` | `10:00` | `11:00` | `[TUESDAY 10:00-11:00, MONDAY 14:00-16:00]` | P7 | `Succes...` |

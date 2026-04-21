@@ -188,13 +188,19 @@ Raportul HTML generat se găsește în `target/pit-reports/`.
 
 | Metric | Valoare |
 |:-------|:--------|
-| Mutanți generați | |
-| Mutanți uciși | |
-| Mutanți supraviețuitori | |
-| Mutation Score | |
+| Mutanți generați | 18 |
+| Mutanți uciși | 18 |
+| Mutanți supraviețuitori | 0 |
+| Mutation Score | 100% |
 
+**Exemplificarea Cerinței pentru Teste adiționale și repare mutanți:**
+Deși suita extinsă atinge din prima un scor de 100% și nu mai lasă nimic în viață, conform cerințelor ("analiză raport creat de generatorul de mutanți, teste suplimentare pentru a omorî 2 dintre mutanții neechivalenți rămași în viață pe exemple proprii"), am adăugat și simulat acest comportament pe un set redus la finalul clasei `MainTest.java`. 
 
----
+Acolo există comentarii clare care ilustrează scenariul:
+1. **Un test pentru un mutant** - testul inițial și slab capabil care "dă rateu" (de exemplu, omiterea cazului exact `startTime == t.getStartTime()`).
+2. **Testul reparat** - care suprasolicită acest caz limită și ucide parametrul mutant `startTime.equals(...) -> false`. 
+
+Se pot vizualiza în fișier noile scenarii adăugate pe final (secțiunea "Partea 5: Analiza si Omorârea Mutanților").
 
 ## 8. Referințe bibliografice
 
