@@ -319,6 +319,34 @@ public class MainTest {
         assertEquals("Succes: Intervalul a fost adăugat.", result);
     }
 
+    // --- Partea 3: Acoperire la nivel de condiție (Condition Coverage) ---
+
+    @Test
+    public void testCC1_C1_True_DayNull() {
+        String result = app.addAvailability(null, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Eroare: Ziua săptămânii este obligatorie.", result);
+    }
+
+    @Test
+    public void testCC2_C1False_C2False_C3False_C4False_Success() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
+    @Test
+    public void testCC3_C2_True_StartNull() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, null, LocalTime.of(11, 0));
+        assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
+    }
+
+    @Test
+    public void testCC4_C3_True_EndNull() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), null);
+        assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
+    }
+
+    
+
 
 
     // --- Partea 4: Testarea circuitelor independente ---
