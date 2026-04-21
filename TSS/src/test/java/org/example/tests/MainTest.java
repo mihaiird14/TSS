@@ -3,6 +3,7 @@ package org.example.tests;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+import org.example.Availability;
 import org.example.Main;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
@@ -116,19 +117,9 @@ public class MainTest {
         assertEquals("Eroare: Ziua săptămânii este obligatorie.", result);
     }
 
-    /*
-     * Java Enums (DayOfWeek) nu permit introducerea unei valori invalide de tip
-     * String sau alt tip.
-     * Valorile pentru D3 (Invalid Format) rezolvate la rulare nu ar compila.
-     * Pentru a "simula" aceste teste fara erori de compilare, G13-G18 sunt descrise
-     * la nivel logic prin prinderea exceptiilor de conversie Enum
-     * sau se apeleaza sub forma comentata / echivalenta cu apel prin Null.
-     */
-
     @Test
     public void testG13_InvalidDayFormat_ValidTime_NoConflict() {
         // D3 nu poate fi mapat direct catre DayOfWeek, se testeaza trecerea prin string
-        // (ex: in API-uri JSON/REST)
         org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
             DayOfWeek d = DayOfWeek.valueOf("Mondayy"); // Invalid
             app.addAvailability(d, LocalTime.of(9, 0), LocalTime.of(10, 0));
@@ -213,8 +204,6 @@ public class MainTest {
     public void testBV6_Conflict_Overlap1MinEnd_StartEqualsEndExistentMinus1Min() {
         app.addAvailability(DayOfWeek.SATURDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
         String result = app.addAvailability(DayOfWeek.SATURDAY, LocalTime.of(10, 59), LocalTime.of(12, 0));
-        // Observatie: codul tau gaseste conflict fie datorita
-        // 'endTime.isAfter(startTime)', ramana conflict.
         assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
     }
 
@@ -272,5 +261,4 @@ public class MainTest {
         String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(13, 0));
         assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
     }
-
 }

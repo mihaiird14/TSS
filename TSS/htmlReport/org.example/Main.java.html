@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ro"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MainTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">org.example</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package org.example;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L8">public class Main {</span>
+
+<span class="fc" id="L10">    private List&lt;Availability&gt; trainerAvailabilities = new ArrayList&lt;&gt;();</span>
+   //3 parametrii
+    public String addAvailability(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+
+        // Condiție simplă (fără else)
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (dayOfWeek == null) {</span>
+<span class="fc" id="L16">            return &quot;Eroare: Ziua săptămânii este obligatorie.&quot;;</span>
+        }
+
+        // Condiție compusă
+<span class="fc bfc" id="L20" title="All 6 branches covered.">        if (startTime == null || endTime == null || !startTime.isBefore(endTime)) {</span>
+<span class="fc" id="L21">            return &quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;;</span>
+        }
+
+<span class="fc" id="L24">        boolean conflictFound = false;</span>
+
+        // Instrucțiune repetitivă
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        for (Availability t : trainerAvailabilities) {</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            if (t.getDayOfWeek().equals(dayOfWeek)) {</span>
+<span class="fc bfc" id="L29" title="All 4 branches covered.">                if ((startTime.isBefore(t.getEndTime()) &amp;&amp; startTime.isAfter(t.getStartTime())) ||</span>
+<span class="fc bfc" id="L30" title="All 4 branches covered.">                        (endTime.isAfter(t.getStartTime()) &amp;&amp; endTime.isBefore(t.getEndTime())) ||</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">                        (startTime.equals(t.getStartTime()))) {</span>
+
+<span class="fc" id="L33">                    conflictFound = true;</span>
+<span class="fc" id="L34">                    break;</span>
+                }
+            }
+<span class="fc" id="L37">        }</span>
+
+        // Condițională cu ELSE
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (conflictFound) {</span>
+<span class="fc" id="L41">            return &quot;Conflict: Există deja un interval setat în această perioadă.&quot;;</span>
+        } else {
+<span class="fc" id="L43">            Availability newAvailability = new Availability(dayOfWeek, startTime, endTime);</span>
+<span class="fc" id="L44">            trainerAvailabilities.add(newAvailability);</span>
+<span class="fc" id="L45">            return &quot;Succes: Intervalul a fost adăugat.&quot;;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

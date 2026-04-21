@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ro"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MainTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">org.example.tests</a> &gt; <span class="el_source">MainTest.java</span></div><h1>MainTest.java</h1><pre class="source lang-java linenums">package org.example.tests;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
+import org.example.Availability;
+import org.example.Main;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+<span class="fc" id="L12">public class MainTest {</span>
+    private Main app;
+
+    @BeforeEach
+    public void setUp() {
+<span class="fc" id="L17">        app = new Main();</span>
+<span class="fc" id="L18">    }</span>
+
+    // --- Partea 1: Partiţionare de echivalenţă (Equivalence Partitioning) ---
+    // Total 18 teste
+
+    // G1: D1 (Valid), T1 (Valid), C1 (Nu exista conflict)
+    @Test
+    public void testG1_ValidDay_ValidTime_NoConflict() {
+        // Adăugăm un interval într-o altă zi pentru a parcurge ramura &quot;if
+        // (!t.getDayOfWeek().equals(...))&quot;
+<span class="fc" id="L28">        app.addAvailability(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+
+<span class="fc" id="L30">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L31">        assertEquals(&quot;Succes: Intervalul a fost adăugat.&quot;, result);</span>
+<span class="fc" id="L32">    }</span>
+
+    // G2: D1 (Valid), T1 (Valid), C2 (Exista conflict)
+    @Test
+    public void testG2_ValidDay_ValidTime_WithConflict() {
+<span class="fc" id="L37">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+
+        // Modificăm testul să aibă exact aceeași oră de start pentru a atinge a 3-a
+        // condiție din conflict logic
+<span class="fc" id="L41">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L42">        assertEquals(&quot;Conflict: Există deja un interval setat în această perioadă.&quot;, result);</span>
+<span class="fc" id="L43">    }</span>
+
+    // G3: D1 (Valid), T2 (Invalid Time - Start &gt;= End), C1 (Nu exista conflict)
+    @Test
+    public void testG3_ValidDay_InvalidTime_NoConflict() {
+<span class="fc" id="L48">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L49">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L50">    }</span>
+
+    // G4: D1 (Valid), T2 (Invalid Time), C2 (Conflict)
+    @Test
+    public void testG4_ValidDay_InvalidTime_WithConflict() {
+<span class="fc" id="L55">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L56">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L57">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L58">    }</span>
+
+    // G5: D1 (Valid), T3 (Time null), C1 (No conflict)
+    @Test
+    public void testG5_ValidDay_NullTime_NoConflict() {
+<span class="fc" id="L63">        String result = app.addAvailability(DayOfWeek.MONDAY, null, LocalTime.of(10, 0));</span>
+<span class="fc" id="L64">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L65">    }</span>
+
+    // G6: D1 (Valid), T3 (Time null), C2 (Conflict)
+    @Test
+    public void testG6_ValidDay_NullTime_WithConflict() {
+<span class="fc" id="L70">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L71">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 30), null);</span>
+<span class="fc" id="L72">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L73">    }</span>
+
+    // G7: D2 (Null day), T1 (Valid Time), C1 (No conflict)
+    @Test
+    public void testG7_NullDay_ValidTime_NoConflict() {
+<span class="fc" id="L78">        String result = app.addAvailability(null, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L79">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L80">    }</span>
+
+    // G8: D2 (Null day), T1 (Valid Time), C2 (Conflict)
+    @Test
+    public void testG8_NullDay_ValidTime_WithConflict() {
+<span class="fc" id="L85">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L86">        String result = app.addAvailability(null, LocalTime.of(9, 30), LocalTime.of(10, 30));</span>
+<span class="fc" id="L87">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L88">    }</span>
+
+    // G9: D2 (Null day), T2 (Invalid Time), C1 (No conflict)
+    @Test
+    public void testG9_NullDay_InvalidTime_NoConflict() {
+<span class="fc" id="L93">        String result = app.addAvailability(null, LocalTime.of(11, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L94">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L95">    }</span>
+
+    // G10: D2 (Null day), T2 (Invalid Time), C2 (Conflict)
+    @Test
+    public void testG10_NullDay_InvalidTime_WithConflict() {
+<span class="fc" id="L100">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L101">        String result = app.addAvailability(null, LocalTime.of(11, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L102">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L103">    }</span>
+
+    // G11: D2 (Null day), T3 (Null time), C1 (No conflict)
+    @Test
+    public void testG11_NullDay_NullTime_NoConflict() {
+<span class="fc" id="L108">        String result = app.addAvailability(null, null, LocalTime.of(10, 0));</span>
+<span class="fc" id="L109">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L110">    }</span>
+
+    // G12: D2 (Null day), T3 (Null time), C2 (Conflict)
+    @Test
+    public void testG12_NullDay_NullTime_WithConflict() {
+<span class="fc" id="L115">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L116">        String result = app.addAvailability(null, LocalTime.of(9, 30), null);</span>
+<span class="fc" id="L117">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L118">    }</span>
+
+    @Test
+    public void testG13_InvalidDayFormat_ValidTime_NoConflict() {
+        // D3 nu poate fi mapat direct catre DayOfWeek, se testeaza trecerea prin string
+<span class="fc" id="L123">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L124">            DayOfWeek d = DayOfWeek.valueOf(&quot;Mondayy&quot;); // Invalid</span>
+<span class="nc" id="L125">            app.addAvailability(d, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="nc" id="L126">        });</span>
+<span class="fc" id="L127">    }</span>
+
+    @Test
+    public void testG14_InvalidDayFormat_ValidTime_WithConflict() {
+<span class="fc" id="L131">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L132">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L133">            app.addAvailability(DayOfWeek.valueOf(&quot;Mondayy&quot;), LocalTime.of(9, 30), LocalTime.of(10, 30));</span>
+<span class="nc" id="L134">        });</span>
+<span class="fc" id="L135">    }</span>
+
+    @Test
+    public void testG15_InvalidDayFormat_InvalidTime_NoConflict() {
+<span class="fc" id="L139">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L140">            app.addAvailability(DayOfWeek.valueOf(&quot;123&quot;), LocalTime.of(11, 0), LocalTime.of(10, 0));</span>
+<span class="nc" id="L141">        });</span>
+<span class="fc" id="L142">    }</span>
+
+    @Test
+    public void testG16_InvalidDayFormat_InvalidTime_WithConflict() {
+<span class="fc" id="L146">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L147">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L148">            app.addAvailability(DayOfWeek.valueOf(&quot;123&quot;), LocalTime.of(11, 0), LocalTime.of(10, 0));</span>
+<span class="nc" id="L149">        });</span>
+<span class="fc" id="L150">    }</span>
+
+    @Test
+    public void testG17_InvalidDayFormat_NullTime_NoConflict() {
+<span class="fc" id="L154">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L155">            app.addAvailability(DayOfWeek.valueOf(&quot;Abc&quot;), null, LocalTime.of(10, 0));</span>
+<span class="nc" id="L156">        });</span>
+<span class="fc" id="L157">    }</span>
+
+    @Test
+    public void testG18_InvalidDayFormat_NullTime_WithConflict() {
+<span class="fc" id="L161">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L162">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L163">            app.addAvailability(DayOfWeek.valueOf(&quot;Abc&quot;), LocalTime.of(9, 30), null);</span>
+<span class="nc" id="L164">        });</span>
+<span class="fc" id="L165">    }</span>
+
+    // --- Partea 2: Analiza valorilor de frontieră (Boundary Value Analysis) ---
+    // Total 6 teste - interval existent: 10:00 - 11:00
+
+    @Test
+    public void testBV1_MinimumInvalidInterval_StartEqualsEnd() {
+<span class="fc" id="L172">        String result = app.addAvailability(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(9, 0));</span>
+<span class="fc" id="L173">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L174">    }</span>
+
+    @Test
+    public void testBV2_MinimumValidInterval_StartEqualsEndMinus1Min() {
+<span class="fc" id="L178">        String result = app.addAvailability(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(9, 1));</span>
+<span class="fc" id="L179">        assertEquals(&quot;Succes: Intervalul a fost adăugat.&quot;, result);</span>
+<span class="fc" id="L180">    }</span>
+
+    @Test
+    public void testBV3_Valid_TouchesStart_EndEqualsStartExistent() {
+<span class="fc" id="L184">        app.addAvailability(DayOfWeek.WEDNESDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L185">        String result = app.addAvailability(DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));</span>
+<span class="fc" id="L186">        assertEquals(&quot;Succes: Intervalul a fost adăugat.&quot;, result);</span>
+<span class="fc" id="L187">    }</span>
+
+    @Test
+    public void testBV4_Valid_TouchesEnd_StartEqualsEndExistent() {
+<span class="fc" id="L191">        app.addAvailability(DayOfWeek.THURSDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L192">        String result = app.addAvailability(DayOfWeek.THURSDAY, LocalTime.of(11, 0), LocalTime.of(12, 0));</span>
+<span class="fc" id="L193">        assertEquals(&quot;Succes: Intervalul a fost adăugat.&quot;, result);</span>
+<span class="fc" id="L194">    }</span>
+
+    @Test
+    public void testBV5_Conflict_Overlap1MinStart_EndEqualsStartExistentPlus1Min() {
+<span class="fc" id="L198">        app.addAvailability(DayOfWeek.FRIDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L199">        String result = app.addAvailability(DayOfWeek.FRIDAY, LocalTime.of(9, 0), LocalTime.of(10, 1));</span>
+<span class="fc" id="L200">        assertEquals(&quot;Conflict: Există deja un interval setat în această perioadă.&quot;, result);</span>
+<span class="fc" id="L201">    }</span>
+
+    @Test
+    public void testBV6_Conflict_Overlap1MinEnd_StartEqualsEndExistentMinus1Min() {
+<span class="fc" id="L205">        app.addAvailability(DayOfWeek.SATURDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L206">        String result = app.addAvailability(DayOfWeek.SATURDAY, LocalTime.of(10, 59), LocalTime.of(12, 0));</span>
+<span class="fc" id="L207">        assertEquals(&quot;Conflict: Există deja un interval setat în această perioadă.&quot;, result);</span>
+<span class="fc" id="L208">    }</span>
+
+    // --- Partea 3: Partitionarea in categorii (Category-Partitioning) ---
+    // Total 8 teste
+
+    @Test
+    public void testCP1_D2_DayNull() {
+<span class="fc" id="L215">        String result = app.addAvailability(null, LocalTime.of(12, 0), LocalTime.of(13, 0));</span>
+<span class="fc" id="L216">        assertEquals(&quot;Eroare: Ziua săptămânii este obligatorie.&quot;, result);</span>
+<span class="fc" id="L217">    }</span>
+
+    @Test
+    public void testCP2_D3_DayInvalidFormat() {
+<span class="fc" id="L221">        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -&gt; {</span>
+<span class="nc" id="L222">            app.addAvailability(DayOfWeek.valueOf(&quot;NotADay&quot;), LocalTime.of(12, 0), LocalTime.of(13, 0));</span>
+<span class="nc" id="L223">        });</span>
+<span class="fc" id="L224">    }</span>
+
+    @Test
+    public void testCP3_D1T2_ValidDay_TimeStartEqualsEnd() {
+<span class="fc" id="L228">        String result = app.addAvailability(DayOfWeek.SUNDAY, LocalTime.of(14, 0), LocalTime.of(14, 0));</span>
+<span class="fc" id="L229">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L230">    }</span>
+
+    @Test
+    public void testCP4_D1T3_ValidDay_TimeStartGreaterThanEnd() {
+<span class="fc" id="L234">        String result = app.addAvailability(DayOfWeek.SUNDAY, LocalTime.of(15, 0), LocalTime.of(14, 0));</span>
+<span class="fc" id="L235">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L236">    }</span>
+
+    @Test
+    public void testCP5_D1T4_ValidDay_TimeNull() {
+<span class="fc" id="L240">        String result = app.addAvailability(DayOfWeek.SUNDAY, null, LocalTime.of(14, 0));</span>
+<span class="fc" id="L241">        assertEquals(&quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;, result);</span>
+<span class="fc" id="L242">    }</span>
+
+    @Test
+    public void testCP6_D1T1L1_ValidDayTime_NoOverlap() {
+<span class="fc" id="L246">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L247">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(12, 0), LocalTime.of(13, 0));</span>
+<span class="fc" id="L248">        assertEquals(&quot;Succes: Intervalul a fost adăugat.&quot;, result);</span>
+<span class="fc" id="L249">    }</span>
+
+    @Test
+    public void testCP7_D1T1L2_ValidDayTime_OverlapAtStart() {
+<span class="fc" id="L253">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));</span>
+<span class="fc" id="L254">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0));</span>
+<span class="fc" id="L255">        assertEquals(&quot;Conflict: Există deja un interval setat în această perioadă.&quot;, result);</span>
+<span class="fc" id="L256">    }</span>
+
+    @Test
+    public void testCP8_D1T1L3_ValidDayTime_OverlapAtEnd() {
+<span class="fc" id="L260">        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));</span>
+<span class="fc" id="L261">        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(13, 0));</span>
+<span class="fc" id="L262">        assertEquals(&quot;Conflict: Există deja un interval setat în această perioadă.&quot;, result);</span>
+<span class="fc" id="L263">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
