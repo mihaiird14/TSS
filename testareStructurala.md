@@ -2,7 +2,7 @@
 
 ## Graful de flux de control (CFG)
 
-<img width="719" height="781" alt="grafTSS" src="https://github.com/user-attachments/assets/8d7208c3-4927-498b-b0f1-4f1efd332d6f" />
+<img width="719" height="782" alt="diagrama" src="https://github.com/user-attachments/assets/38b875ff-9587-4cb6-ba65-f1e972155f94" />
 
 Nodurile grafului corespund blocurilor de instrucțiuni și deciziilor din metodă:
 
@@ -15,39 +15,46 @@ Nodurile grafului corespund blocurilor de instrucțiuni și deciziilor din metod
 | N5 | `for each t in trainerAvailabilities` – condiție iterație |
 | N6 | `if (t.dayOfWeek == dayOfWeek)` |
 | N7 | `if (startTime in interval_existent \|\| endTime in interval_existent \|\| startTime == start_interval)` |
-| N8 | `conflictFound = true; exit (break)` |
-| N9 | `if (conflictGasit)` |
-| N10 | `return` – „există conflict" |
-| N11 | `return` – „succes" |
+| N8 | `if (conflictGasit)` |
+| N9 | `return` – „există conflict" |
+| N10 | `return` – „succes" |
 
+**Arce (ramuri):**
+- N1 →(adevărat) N2, N1 →(fals) N3
+- N3 →(adevărat) N4, N3 →(fals) N5
+- N5 →(adevărat – mai există elemente) N6, N5 →(fals – lista epuizată) N8
+- N6 →(adevărat) N7, N6 →(fals) N5 (next iteration)
+- N7 →(adevărat – CONFLICT GASIT) N8, N7 →(fals) N5 (next iteration)
+- N8 →(adevărat) N9, N8 →(fals) N10
 
 ---
 
 ## 1. Acoperire la nivel de instrucțiune (Statement Coverage)
 
 Pentru a acoperi toate instrucțiunile, trebuie să ne asigurăm că ramurile controlate de condiții sunt atinse.
-Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N8, N10, N11.
+Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N9, N10.
 
 ### Date de test
 
 | ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Noduri parcurși | Rezultat așteptat |
 |:---|:------------|:------------|:----------|:------------|:----------------|:------------------|
-| T1 | | | | | N1, N3, N5, N6, N7, N8, N9, N10 | |
-| T2 | | | | | N1, N3, N5, N9, N11 | |
+| T1 | | | | | N1, N3, N5, N6, N7, N8, N9 | |
+| T2 | | | | | N1, N3, N5, N8, N10 | |
 
 ---
 
 ## 2. Acoperire la nivel de decizie (Decision / Branch Coverage)
+
 ### Decizii identificate
 
 | # | Decizie | Ramura adevărat | Ramura fals |
 |:--|:--------|:----------------|:------------|
 | D1 | `dayOfWeek == null` | → N2 (return eroare) | → N3 |
 | D2 | `startTime == null \|\| endTime == null \|\| !isBefore` | → N4 (return eroare) | → N5 |
-| D3 | `for` – mai există elemente | → N6 | → N9 |
+| D3 | `for` – mai există elemente | → N6 | → N8 |
 | D4 | `t.dayOfWeek == dayOfWeek` | → N7 | → N5 (next iteration) |
-| D5 | suprapunere (condiție compusă) | → N8 | → N5 (next iteration) |
-| D6 | `conflictGasit` | → N10 | → N11 |
+| D5 | suprapunere (condiție compusă) | → N8 (CONFLICT GASIT) | → N5 (next iteration) |
+| D6 | `conflictGasit` | → N9 | → N10 |
 
 ### Date de test
 
@@ -90,15 +97,16 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N8, N
 ---
 
 ## 4. Testarea circuitelor independente
+
 ### Formula complexității ciclomatice
 
 Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fiecare nod terminal înapoi la nodul de start:
 
-- **n** (noduri) = 11 &nbsp;*(N1 – N11)*
-- **e** (arce) = 17
-  - Arce interne (13): N1→N2, N1→N3, N3→N4, N3→N5, N5→N6, N5→N9, N6→N7, N6→N5, N7→N8, N7→N5, N8→N9, N9→N10, N9→N11
-  - Arce adăugate (4): N2→N1, N4→N1, N10→N1, N11→N1
-- **V(G) = e − n + 2 = 17 − 11 + 2 = 8**
+- **n** (noduri) = 10 &nbsp;*(N1 – N10)*
+- **e** (arce) = 16
+  - Arce interne (12): N1→N2, N1→N3, N3→N4, N3→N5, N5→N6, N5→N8, N6→N7, N6→N5, N7→N8, N7→N5, N8→N9, N8→N10
+  - Arce adăugate (4): N2→N1, N4→N1, N9→N1, N10→N1
+- **V(G) = e − n + 2 = 16 − 10 + 2 = 8**
 
 > Există **8 circuite independente**, deci sunt necesare cel puțin **8 căi de test** pentru a acoperi toate ramurile.
 
@@ -108,12 +116,12 @@ Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fie
 |:-----|:----------------|:----------|
 | P1 | N1 → N2 | `dayOfWeek == null` → return eroare |
 | P2 | N1 → N3 → N4 | dayOfWeek valid, interval invalid → return eroare |
-| P3 | N1 → N3 → N5 → N9 → N11 | Lista goală, fără conflict → succes |
-| P4 | N1 → N3 → N5 → N6 → N5 → N9 → N11 | Un element cu zi diferită → succes |
-| P5 | N1 → N3 → N5 → N6 → N7 → N5 → N9 → N11 | Zi egală, fără suprapunere → succes |
-| P6 | N1 → N3 → N5 → N6 → N7 → N8 → N9 → N10 | Conflict detectat → return conflict |
-| P7 | N1 → N3 → N5 → N6 → N5 → N6 → N7 → N5 → N9 → N11 | Două iterații: zi diferită, apoi zi egală fără suprapunere → succes |
-| P8 | N1 → N3 → N5 → N6 → N7 → N8 → N9 → N11 | *(nefezabilă – dacă conflictFound=true, N9 ia ramura adevărat)* |
+| P3 | N1 → N3 → N5 → N8 → N10 | Lista goală, fără conflict → succes |
+| P4 | N1 → N3 → N5 → N6 → N5 → N8 → N10 | Un element cu zi diferită → succes |
+| P5 | N1 → N3 → N5 → N6 → N7 → N5 → N8 → N10 | Zi egală, fără suprapunere → succes |
+| P6 | N1 → N3 → N5 → N6 → N7 → N8 → N9 | Conflict detectat → return conflict |
+| P7 | N1 → N3 → N5 → N6 → N5 → N6 → N7 → N5 → N8 → N10 | Două iterații: zi diferită, apoi zi egală fără suprapunere → succes |
+| P8 | N1 → N3 → N5 → N6 → N7 → N8 → N10 | *(nefezabilă – dacă conflictGasit=true, N8 ia ramura adevărat)* |
 
 ### Date de test
 
