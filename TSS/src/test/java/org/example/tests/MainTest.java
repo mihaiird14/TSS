@@ -345,6 +345,34 @@ public class MainTest {
         assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
     }
 
+
+
+    @Test
+    public void testCC5_C4_True_NotBefore() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(10, 0));
+        assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
+    }
+
+    @Test
+    public void testCC6_C5True_C6True_C7True_C10True_Conflict() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(12, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
+
+    @Test
+    public void testCC7_C8_True_EndInsideExisting_Conflict() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(13, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
+        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
+
+    @Test
+    public void testCC8_C9_True_EqualStart_Conflict() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(12, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
     
 
 
