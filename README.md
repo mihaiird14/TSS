@@ -162,45 +162,43 @@ Rezultă **8 circuite independente** și cel puțin 8 căi de test necesare.
 
 ### 6.2 Captură ecran
 
-<!-- Adaugă aici captura de ecran cu rezultatele coverage din IntelliJ -->
-![Coverage Report](./coverage_report.png)
-
-### 6.3 Interpretare
-
-Acoperirea de 100% pe linii și metode pentru ambele clase confirmă că suita de teste execută fiecare instrucțiune din cod cel puțin o dată. Atingerea acestui nivel a necesitat adăugarea testului `testAvailabilityGetters()` pentru metodele getter din `Availability`, și a testelor `testCoverage_EndTimeEqualsExistingEndTime()` și `testCoverage_SameDay_NoOverlapBefore()` pentru ramurile rămase neacoperite din logica de conflict.
+<img width="1222" height="308" alt="image" src="https://github.com/user-attachments/assets/90432a48-2855-499d-9565-ca355bc98c4c" />
 
 ---
 
 ## 7. Raport mutanți (PIT Mutation Testing)
 
-### 7.1 Rularea PIT
+### 7.1 Demonstrarea unui mutant supraviețuitor și repararea lui
 
-```bash
-mvn org.pitest:pitest-maven:mutationCoverage
-```
+**Înainte – test slab (9/15 mutanți uciși):**
 
-Raportul HTML generat se găsește în `target/pit-reports/`.
+<!-- Adaugă captura Image 1 și Image 2 -->
+<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/ffc7309a-2510-41c9-b7c0-6dc80dbf5580" />
 
-### 7.2 Rezultate
+<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/d76765b4-d754-44f9-a36d-9d0aba3ed0e3" />
 
-<!-- Adaugă aici captura de ecran cu raportul PIT -->
-![PIT Report](./pit_report.png)
 
 | Metric | Valoare |
 |:-------|:--------|
-| Mutanți generați | 18 |
-| Mutanți uciși | 18 |
+| Line Coverage | 89% (17/19) |
+| Mutation Coverage | 60% (9/15) |
+| Test Strength | 69% (9/13) |
+| Mutanți supraviețuitori | linia 28, 29, 30, 40, 45 |
+
+**După – test reparat (15/15 mutanți uciși):**
+
+<!-- Adaugă captura Image 3 și Image 4 -->
+<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/a46d325a-da6d-4df1-ad6e-4c14dde1ee96" />
+
+<img width="500" height="255" alt="image" src="https://github.com/user-attachments/assets/9a54e3aa-070f-42b4-882d-793e55d4edc5" />
+
+
+| Metric | Valoare |
+|:-------|:--------|
+| Line Coverage | 100% (19/19) |
+| Mutation Coverage | 100% (15/15) |
+| Test Strength | 100% (15/15) |
 | Mutanți supraviețuitori | 0 |
-| Mutation Score | 100% |
-
-**Exemplificarea Cerinței pentru Teste adiționale și repare mutanți:**
-Deși suita extinsă atinge din prima un scor de 100% și nu mai lasă nimic în viață, conform cerințelor ("analiză raport creat de generatorul de mutanți, teste suplimentare pentru a omorî 2 dintre mutanții neechivalenți rămași în viață pe exemple proprii"), am adăugat și simulat acest comportament pe un set redus la finalul clasei `MainTest.java`. 
-
-Acolo există comentarii clare care ilustrează scenariul:
-1. **Un test pentru un mutant** - testul inițial și slab capabil care "dă rateu" (de exemplu, omiterea cazului exact `startTime == t.getStartTime()`).
-2. **Testul reparat** - care suprasolicită acest caz limită și ucide parametrul mutant `startTime.equals(...) -> false`. 
-
-Se pot vizualiza în fișier noile scenarii adăugate pe final (secțiunea "Partea 5: Analiza si Omorârea Mutanților").
 
 ## 8. Referințe bibliografice
 
