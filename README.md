@@ -1,5 +1,9 @@
-# Documentație
-
+# Testare unitară în Java 
+## Echipă
+    - Coman Ioan Alexandru (334)
+    - Ionescu Alexandru Ioan (334)
+    - Iordache Mihai (334)
+    - Predescu Andrei (334)
 | | |
 |:--|:--|
 | [Prezentare](./prezentare.pptx) | [Demo](https://youtu.be/zWRsbMo__1A) |
