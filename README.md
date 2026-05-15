@@ -66,6 +66,8 @@ public String addAvailability(DayOfWeek dayOfWeek,
 
 ## 3. Strategia de testare
 
+Se testează o funcție care verifică dacă o zi și un interval orar sunt disponibile pentru o programare nouă. Mai precis, funcția primește 3 parametri: zi (ziua săptămânii), oraInceput și oraSfarsit (intervalul orar dorit), și verifică dacă aceștia sunt valizi și dacă nu există conflicte cu programările deja existente. Funcția va produce un mesaj care indică fie că programarea a fost adăugată cu succes, fie că există o eroare sau un conflict cu un interval deja rezervat. Utilizatorul poate apela funcția cu orice combinație de zi și interval orar pentru a testa toate cazurile posibile.
+
 Testarea a fost organizată în patru etape complementare:
 
 1. **Testare funcțională (black-box)** – pe baza specificației, fără acces la cod:
