@@ -129,7 +129,7 @@ Documentația completă se găsește în [`testareStructurala.md`](./testareStru
 
 ### 5.1 Graful de flux de control (CFG)
 
-<img width="719" height="782" alt="diagrama" src="https://github.com/user-attachments/assets/8e7fba52-327f-4121-9624-e872c72b393f" />
+<img width="381" height="341" alt="Untitled Diagram drawio" src="https://github.com/user-attachments/assets/62fa9565-f825-418d-981f-6347c0359340" />
 
 
 | Nod | Instrucțiune |
@@ -148,10 +148,10 @@ Documentația completă se găsește în [`testareStructurala.md`](./testareStru
 ### 5.2 Complexitate ciclomatică McCabe
 
 - **n** (noduri) = 10
-- **e** (arce) = 16 → 12 interne + 4 adăugate (N2→N1, N4→N1, N9→N1, N10→N1)
-- **V(G) = e − n + 2 = 17 − 11 + 2 = 8**
+- **e** (arce) = 15 → 11 interne + 4 adăugate (N2→N1, N4→N1, N9→N1, N10→N1)
+- **V(G) = e − n + 2 = 15 − 10 + 2 = 7**
 
-Rezultă **8 circuite independente** și cel puțin 8 căi de test necesare.
+Rezultă **7 circuite independente** și cel puțin 7 căi de test necesare.
 
 ---
 
