@@ -17,31 +17,35 @@ public class MainTesteAI {
         app = new Main();
     }
 
-    // --- Teste slabe generate intenționat pentru demonstrație ---
-    // AI-ul a generat teste redundante și a ratat branch-urile și edge case-urile
-    // (precum startTime == null sau error checking pentru start > end).
+    // --- Teste generate de AI (Focus: Boundary Value Analysis) ---
+    // AI-ului i s-a cerut să genereze teste de frontieră pentru un interval
+    // existent.
+    // Deși verifică limitele "mari", ratează complet granițele de 1 minut.
 
     @Test
-    void testSuccessfulAdd() {
-        String result = app.addAvailability(DayOfWeek.MONDAY,
-                LocalTime.of(9, 0), LocalTime.of(10, 0));
-        assertEquals("Succes: Intervalul a fost adăugat.", result);
-    }
-
-    @Test
-    void testSuccessfulAddV2() {
-        // AI-ul face același test ca mai sus, redundant
-        String result = app.addAvailability(DayOfWeek.TUESDAY,
-                LocalTime.of(14, 0), LocalTime.of(16, 0));
-        assertEquals("Succes: Intervalul a fost adăugat.", result);
-    }
-
-    @Test
-    void testConflictSameInterval() {
-        app.addAvailability(DayOfWeek.WEDNESDAY,
-                LocalTime.of(9, 0), LocalTime.of(10, 0));
-        String result = app.addAvailability(DayOfWeek.WEDNESDAY,
-                LocalTime.of(9, 0), LocalTime.of(10, 0));
+    void testBoundaryExactMatch() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
         assertEquals("Conflict: Există deja un interval setat în această perioadă.", result);
+    }
+
+    @Test
+    void testBoundaryAdjacentBefore() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
+    @Test
+    void testBoundaryAdjacentAfter() {
+        app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0));
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0));
+        assertEquals("Succes: Intervalul a fost adăugat.", result);
+    }
+
+    @Test
+    void testBoundaryZeroDuration() {
+        String result = app.addAvailability(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(10, 0));
+        assertEquals("Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.", result);
     }
 }
