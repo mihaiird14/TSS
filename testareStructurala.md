@@ -105,7 +105,7 @@ Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fie
 
 - **n** (noduri) = 10 &nbsp;*(N1 – N10)*
 - **e** (arce) = 15
-  - Arce interne (12): N1→N2, N1→N3, N3→N4, N3→N5, N5→N6, N5→N8, N6→N7, N6→N5, N7→N5, N8→N9, N8→N10
+  - Arce interne (11): N1→N2, N1→N3, N3→N4, N3→N5, N5→N6, N5→N8, N6→N7, N6→N5, N7→N5, N8→N9, N8→N10
   - Arce adăugate (4): N2→N1, N4→N1, N9→N1, N10→N1
 - **V(G) = e − n + 2 = 15 − 10 + 2 = 7**
 
