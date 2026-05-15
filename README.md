@@ -206,11 +206,14 @@ Rezultă **8 circuite independente** și cel puțin 8 căi de test necesare.
 
 ## 8. Referințe bibliografice
 
-| Tool | Link |
-|:-----|:-----|
-| JUnit 5 | https://junit.org/junit5/docs/current/user-guide/ |
-| PIT Mutation Testing | https://pitest.org |
-| IntelliJ Coverage | https://www.jetbrains.com/help/idea/code-coverage.html |
-| JaCoCo | https://www.jacoco.org/jacoco/ |
-| ChatGPT (OpenAI) | https://platform.openai.com |
-| Maven | https://maven.apache.org |
+[1] JUnit Team, JUnit 5 User Guide online, https://junit.org/junit5/docs/current/user-guide/, Data ultimei accesări: 18             martie 2025
+
+[2] PIT Mutation Testing Team, PIT Mutation Testing online, https://pitest.org, Data ultimei accesări: 20 martie 2025
+
+[3] JetBrains, Code Coverage in IntelliJ IDEA, https://www.jetbrains.com/help/idea/code-coverage.html, Data ultimei                 accesări: 22 martie 2025
+
+[4] JaCoCo Team, JaCoCo Java Code Coverage Library, https://www.jacoco.org/jacoco/, Data ultimei accesări: 25 martie 2025
+
+[5] Apache Software Foundation, Maven Project, https://maven.apache.org, Data ultimei accesări: 28 martie 2025
+
+[6] OpenAI, ChatGPT, https://chatgpt.com/, Data generării: 10 aprilie 2025
