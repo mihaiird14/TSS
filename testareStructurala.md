@@ -37,7 +37,7 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N
 
 ### Date de test
 
-| ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Noduri parcurși | Rezultat așteptat |
+| ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Noduri  | Rezultat așteptat |
 |:---|:------------|:------------|:----------|:------------|:----------------|:------------------|
 | T1 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 09:00 - 11:00]` | N1, N3, N5, N6, N7, N8, N9 | `Conflict: Există deja...` |
 | T2 | `MONDAY` | `10:00` | `11:00` | `[]` (Goală) | N1, N3, N5, N8, N10 | `Succes: Intervalul a...` |
@@ -94,7 +94,8 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N
 | CC6 | `MONDAY` | `10:00` | `11:00` | `[MONDAY 09:00 - 12:00]`| C5=adevărat, C6=adevărat, C7=adevărat, C10=adevărat | `Conflict...` |
 | CC7 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 11:00 - 13:00]`| C8=adevărat | `Conflict...` |
 | CC8 | `MONDAY` | `10:00` | `11:00` | `[MONDAY 10:00 - 12:00]`| C9=adevărat | `Conflict...` |
-
+| CC9 | `TUESDAY` | `10:00` | `11:00` | `[MONDAY 10:00-11:00]` | C6=false | `Succes: Intervalul a fost adăugat.` |
+| CC10 | `MONDAY` | `11:00` | `12:00` | `[MONDAY 10:00-11:00]` | C7=false, C8=false, C9=false, C10=false | `Succes: Intervalul a fost adăugat.` |
 ---
 
 ## 4. Testarea circuitelor independente
@@ -132,8 +133,3 @@ Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fie
 | CP6 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 11:00 - 13:00]` | P6 | `Conflict...` |
 | CP7 | `MONDAY` | `10:00` | `11:00` | `[TUESDAY 10:00-11:00, MONDAY 14:00-16:00]` | P7 | `Succes...` |
 
-## 5. Teste generate cu AI (Reduse intentionat)
-
-In cadrul testarii cu ajutorul asistentilor AI (ex. ChatGPT / Copilot / Gemini), am generat un set de *teste proaste* pentru a demonstra o limitare fundamentala: **AI-ul nu ofera intotdeauna 100% coverage fara prompt-uri riguroase.**
-
-Testele aflate in **MainTesteAI.java** sunt redundante, nu acopera edge-case-urile critice (ex: startTime == null, endTime == null, startTime > endTime) si nu verifica toate ramurile de decizie din functia de suprapunere a intervalelor, ducand astfel la un **coverage incomplet** si artificial de scazut. Aceasta decizie demonstreaza importanta review-ului uman si a definirii clare a partitiilor de echivalenta.
