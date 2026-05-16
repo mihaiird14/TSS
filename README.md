@@ -175,19 +175,20 @@ Rezultă **7 circuite independente** și cel puțin 7 căi de test necesare.
 **Înainte – test slab (9/15 mutanți uciși):**
 
 <!-- Adaugă captura Image 1 și Image 2 -->
-<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/ffc7309a-2510-41c9-b7c0-6dc80dbf5580" />
+<img width="550" height="86" alt="image" src="https://github.com/user-attachments/assets/3b4f7ab8-f471-43eb-8611-37583af38ac4" />
 
-<img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/d76765b4-d754-44f9-a36d-9d0aba3ed0e3" />
+
+<img width="786" height="266" alt="image" src="https://github.com/user-attachments/assets/d2305137-7468-44fe-a71f-c0316685ba96" />3" />
 
 
 | Metric | Valoare |
 |:-------|:--------|
-| Line Coverage | 89% (17/19) |
-| Mutation Coverage | 60% (9/15) |
-| Test Strength | 69% (9/13) |
-| Mutanți supraviețuitori | linia 28, 29, 30, 40, 45 |
+| Line Coverage | 100% |
+| Mutation Coverage | 94% |
+| Test Strength | 94% |
 
-**După – test reparat (15/15 mutanți uciși):**
+
+**După – test reparat:**
 
 <!-- Adaugă captura Image 3 și Image 4 -->
 <img width="500" height="250" alt="image" src="https://github.com/user-attachments/assets/a46d325a-da6d-4df1-ad6e-4c14dde1ee96" />
@@ -197,9 +198,9 @@ Rezultă **7 circuite independente** și cel puțin 7 căi de test necesare.
 
 | Metric | Valoare |
 |:-------|:--------|
-| Line Coverage | 100% (19/19) |
-| Mutation Coverage | 100% (15/15) |
-| Test Strength | 100% (15/15) |
+| Line Coverage | 100% |
+| Mutation Coverage | 100%  |
+| Test Strength | 100%  |
 | Mutanți supraviețuitori | 0 |
 
 ## 8. Referințe bibliografice
