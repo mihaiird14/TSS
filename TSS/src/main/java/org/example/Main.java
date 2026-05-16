@@ -26,10 +26,10 @@ public class Main {
         // Instrucțiune repetitivă
         for (Availability t : trainerAvailabilities) {
             if (t.getDayOfWeek().equals(dayOfWeek)) {
-                if ((startTime.isBefore(t.getEndTime()) && startTime.isAfter(t.getStartTime())) ||
-                        (endTime.isAfter(t.getStartTime()) && endTime.isBefore(t.getEndTime())) ||
-                        (startTime.equals(t.getStartTime()))) {
-
+                boolean c7 = startTime.isBefore(t.getEndTime()) && startTime.isAfter(t.getStartTime());
+                boolean c8 = endTime.isAfter(t.getStartTime()) && endTime.isBefore(t.getEndTime());
+                boolean c9 = startTime.equals(t.getStartTime());
+                if (c7 || c8 || c9){
                     conflictFound = true;
                     break;
                 }

@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Main</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example</a>
+</div>
+
+<h1>Coverage Summary for Class: Main (org.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Main</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70,8%
+  </span>
+  <span class="absValue">
+    (17/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example;
+&nbsp;
+&nbsp;import java.time.DayOfWeek;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;public class Main {</b>
+&nbsp;
+<b class="fc">&nbsp;    private List&lt;Availability&gt; trainerAvailabilities = new ArrayList&lt;&gt;();</b>
+&nbsp;   //3 parametrii
+&nbsp;    public String addAvailability(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+&nbsp;
+&nbsp;        // Condiție simplă (fără else)
+<b class="fc">&nbsp;        if (dayOfWeek == null) {</b>
+<b class="fc">&nbsp;            return &quot;Eroare: Ziua săptămânii este obligatorie.&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Condiție compusă
+<b class="pc">&nbsp;        if (startTime == null || endTime == null || !startTime.isBefore(endTime)) {</b>
+<b class="fc">&nbsp;            return &quot;Eroare: Ora de început trebuie să fie strict mai mică decât ora de sfârșit.&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        boolean conflictFound = false;</b>
+&nbsp;
+&nbsp;        // Instrucțiune repetitivă
+<b class="fc">&nbsp;        for (Availability t : trainerAvailabilities) {</b>
+<b class="fc">&nbsp;            if (t.getDayOfWeek().equals(dayOfWeek)) {</b>
+<b class="pc">&nbsp;                if ((startTime.isBefore(t.getEndTime()) &amp;&amp; startTime.isAfter(t.getStartTime())) ||</b>
+<b class="pc">&nbsp;                        (endTime.isAfter(t.getStartTime()) &amp;&amp; endTime.isBefore(t.getEndTime())) ||</b>
+<b class="pc">&nbsp;                        (startTime.equals(t.getStartTime()))) {</b>
+&nbsp;
+<b class="fc">&nbsp;                    conflictFound = true;</b>
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        // Condițională cu ELSE
+<b class="fc">&nbsp;        if (conflictFound) {</b>
+<b class="fc">&nbsp;            return &quot;Conflict: Există deja un interval setat în această perioadă.&quot;;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            Availability newAvailability = new Availability(dayOfWeek, startTime, endTime);</b>
+<b class="fc">&nbsp;            trainerAvailabilities.add(newAvailability);</b>
+<b class="fc">&nbsp;            return &quot;Succes: Intervalul a fost adăugat.&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-16 16:08</div>
+</div>
+</body>
+</html>
