@@ -1,8 +1,12 @@
-# Documentație
-
+# Testare unitară în Java 
+## Echipă
+    - Coman Ioan Alexandru (334)
+    - Ionescu Alexandru Ioan (334)
+    - Iordache Mihai (334)
+    - Predescu Andrei (334)
 | | |
 |:--|:--|
-| [Prezentare](./prezentare.pptx) | [Demo](#) |
+| [Prezentare](./prezentare.pptx) | [Demo](https://youtu.be/zWRsbMo__1A) |
 | [Raport AI](./RaportAI.md) | [Testare funcțională](./TestareFunctionala.md) |
 | [Testare structurală](./testareStructurala.md) | |
 
@@ -61,6 +65,8 @@ public String addAvailability(DayOfWeek dayOfWeek,
 ---
 
 ## 3. Strategia de testare
+
+Se testează o funcție care verifică dacă o zi și un interval orar sunt disponibile pentru o programare nouă. Mai precis, funcția primește 3 parametri: zi (ziua săptămânii), oraInceput și oraSfarsit (intervalul orar dorit), și verifică dacă aceștia sunt valizi și dacă nu există conflicte cu programările deja existente. Funcția va produce un mesaj care indică fie că programarea a fost adăugată cu succes, fie că există o eroare sau un conflict cu un interval deja rezervat. Utilizatorul poate apela funcția cu orice combinație de zi și interval orar pentru a testa toate cazurile posibile.
 
 Testarea a fost organizată în patru etape complementare:
 
@@ -125,7 +131,7 @@ Documentația completă se găsește în [`testareStructurala.md`](./testareStru
 
 ### 5.1 Graful de flux de control (CFG)
 
-<img width="719" height="782" alt="diagrama" src="https://github.com/user-attachments/assets/8e7fba52-327f-4121-9624-e872c72b393f" />
+<img width="381" height="341" alt="Untitled Diagram drawio" src="https://github.com/user-attachments/assets/62fa9565-f825-418d-981f-6347c0359340" />
 
 
 | Nod | Instrucțiune |
@@ -144,10 +150,10 @@ Documentația completă se găsește în [`testareStructurala.md`](./testareStru
 ### 5.2 Complexitate ciclomatică McCabe
 
 - **n** (noduri) = 10
-- **e** (arce) = 16 → 12 interne + 4 adăugate (N2→N1, N4→N1, N9→N1, N10→N1)
-- **V(G) = e − n + 2 = 17 − 11 + 2 = 8**
+- **e** (arce) = 15 → 11 interne + 4 adăugate (N2→N1, N4→N1, N9→N1, N10→N1)
+- **V(G) = e − n + 2 = 15 − 10 + 2 = 7**
 
-Rezultă **8 circuite independente** și cel puțin 8 căi de test necesare.
+Rezultă **7 circuite independente** și cel puțin 7 căi de test necesare.
 
 ---
 
@@ -202,11 +208,14 @@ Rezultă **8 circuite independente** și cel puțin 8 căi de test necesare.
 
 ## 8. Referințe bibliografice
 
-| Tool | Link |
-|:-----|:-----|
-| JUnit 5 | https://junit.org/junit5/docs/current/user-guide/ |
-| PIT Mutation Testing | https://pitest.org |
-| IntelliJ Coverage | https://www.jetbrains.com/help/idea/code-coverage.html |
-| JaCoCo | https://www.jacoco.org/jacoco/ |
-| ChatGPT (OpenAI) | https://platform.openai.com |
-| Maven | https://maven.apache.org |
+[1] JUnit Team, JUnit 5 User Guide online, https://junit.org/junit5/docs/current/user-guide/, Data ultimei accesări: 18             martie 2025
+
+[2] PIT Mutation Testing Team, PIT Mutation Testing online, https://pitest.org, Data ultimei accesări: 20 martie 2025
+
+[3] JetBrains, Code Coverage in IntelliJ IDEA, https://www.jetbrains.com/help/idea/code-coverage.html, Data ultimei                 accesări: 22 martie 2025
+
+[4] JaCoCo Team, JaCoCo Java Code Coverage Library, https://www.jacoco.org/jacoco/, Data ultimei accesări: 25 martie 2025
+
+[5] Apache Software Foundation, Maven Project, https://maven.apache.org, Data ultimei accesări: 28 martie 2025
+
+[6] OpenAI, ChatGPT, https://chatgpt.com/, Data generării: 10 aprilie 2025

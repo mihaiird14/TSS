@@ -2,7 +2,8 @@
 
 ## Graful de flux de control (CFG)
 
-<img width="719" height="782" alt="diagrama" src="https://github.com/user-attachments/assets/38b875ff-9587-4cb6-ba65-f1e972155f94" />
+<img width="381" height="341" alt="Untitled Diagram drawio" src="https://github.com/user-attachments/assets/e1ec55d0-0f90-4d5c-a16f-609b6ac1488a" />
+
 
 Nodurile grafului corespund blocurilor de instrucțiuni și deciziilor din metodă:
 
@@ -24,7 +25,7 @@ Nodurile grafului corespund blocurilor de instrucțiuni și deciziilor din metod
 - N3 →(adevărat) N4, N3 →(fals) N5
 - N5 →(adevărat – mai există elemente) N6, N5 →(fals – lista epuizată) N8
 - N6 →(adevărat) N7, N6 →(fals) N5 (next iteration)
-- N7 →(adevărat – CONFLICT GASIT) N8, N7 →(fals) N5 (next iteration)
+- N7 →(adevărat – CONFLICT GASIT), N7 →(fals) N5 (next iteration)
 - N8 →(adevărat) N9, N8 →(fals) N10
 
 ---
@@ -103,12 +104,10 @@ Instrucțiunile „critice" care depind de condiții sunt nodurile N2, N4, N7, N
 Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fiecare nod terminal înapoi la nodul de start:
 
 - **n** (noduri) = 10 &nbsp;*(N1 – N10)*
-- **e** (arce) = 16
-  - Arce interne (12): N1→N2, N1→N3, N3→N4, N3→N5, N5→N6, N5→N8, N6→N7, N6→N5, N7→N8, N7→N5, N8→N9, N8→N10
+- **e** (arce) = 15
+  - Arce interne (11): N1→N2, N1→N3, N3→N4, N3→N5, N5→N6, N5→N8, N6→N7, N6→N5, N7→N5, N8→N9, N8→N10
   - Arce adăugate (4): N2→N1, N4→N1, N9→N1, N10→N1
-- **V(G) = e − n + 2 = 16 − 10 + 2 = 8**
-
-> Există **8 circuite independente**, deci sunt necesare cel puțin **8 căi de test** pentru a acoperi toate ramurile.
+- **V(G) = e − n + 2 = 15 − 10 + 2 = 7**
 
 ### Setul de bază
 
@@ -121,8 +120,6 @@ Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fie
 | P5 | N1 → N3 → N5 → N6 → N7 → N5 → N8 → N10 | Zi egală, fără suprapunere → succes |
 | P6 | N1 → N3 → N5 → N6 → N7 → N8 → N9 | Conflict detectat → return conflict |
 | P7 | N1 → N3 → N5 → N6 → N5 → N6 → N7 → N5 → N8 → N10 | Două iterații: zi diferită, apoi zi egală fără suprapunere → succes |
-| P8 | N1 → N3 → N5 → N6 → N7 → N8 → N10 | *(nefezabilă – dacă conflictGasit=true, N8 ia ramura adevărat)* |
-
 ### Date de test
 
 | ID | `dayOfWeek` | `startTime` | `endTime` | Stare listă | Cale | Rezultat așteptat |
@@ -134,3 +131,9 @@ Pentru a obține un **graf complet conectat**, se adaugă câte un arc de la fie
 | CP5 | `MONDAY` | `10:00` | `11:00` | `[MONDAY 14:00 - 16:00]` | P5 | `Succes...` |
 | CP6 | `MONDAY` | `10:00` | `12:00` | `[MONDAY 11:00 - 13:00]` | P6 | `Conflict...` |
 | CP7 | `MONDAY` | `10:00` | `11:00` | `[TUESDAY 10:00-11:00, MONDAY 14:00-16:00]` | P7 | `Succes...` |
+
+## 5. Teste generate cu AI (Reduse intentionat)
+
+In cadrul testarii cu ajutorul asistentilor AI (ex. ChatGPT / Copilot / Gemini), am generat un set de *teste proaste* pentru a demonstra o limitare fundamentala: **AI-ul nu ofera intotdeauna 100% coverage fara prompt-uri riguroase.**
+
+Testele aflate in **MainTesteAI.java** sunt redundante, nu acopera edge-case-urile critice (ex: startTime == null, endTime == null, startTime > endTime) si nu verifica toate ramurile de decizie din functia de suprapunere a intervalelor, ducand astfel la un **coverage incomplet** si artificial de scazut. Aceasta decizie demonstreaza importanta review-ului uman si a definirii clare a partitiilor de echivalenta.
