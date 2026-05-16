@@ -3,40 +3,30 @@
 ### 1. Partiţionare de echivalenţă (Equivalence Partitioning)
 #### Domeniul de intrări (Individual):
 * **Ziua săptămânii (DayOfWeek - D):**
-    * $D_1 = \{ \text{MONDAY, TUESDAY, ..., SUNDAY} \}$ (Valid)
-    * $D_2 = \{ \text{null} \}$ (Eroare - obiect lipsă)
-    * $D_3 = \{ \text{"Abc", "Mondayy", 123} \}$ (Eroare - format/valoare invalidă)
-* **Intervalul orar (startTime, endTime - T):**
-    * $T_1 = \{ (S, E) | S < E, S, E \neq \text{null} \}$ (Valid)
-    * $T_2 = \{ (S, E) | S \geq E, S, E \neq \text{null} \}$ (Eroare logică)
-    * $T_3 = \{ (S, E) | S = \text{null} \text{ sau } E = \text{null} \}$ (Eroare - date lipsă)
-* **Starea conflictelor (Conflict - C):**
-    * $C_1 = \{ \text{nu există suprapunere în listă} \}$ (Succes)
-    * $C_2 = \{ \text{există cel puțin o suprapunere în listă} \}$ (Eroare conflict)
+  * **D1** = {MONDAY, TUESDAY, ..., SUNDAY} (Valid)
+  * **D2** = {null} (Eroare - obiect lipsă)
 
-#### Clase de echivalență globale:
+* **Intervalul orar (startTime, endTime - T):**
+  * **T1** = {(S, E) | S < E, S, E != null} (Valid)
+  * **T2** = {(S, E) | S >= E, S, E != null} (Eroare logică)
+  * **T3** = {(S, E) | S = null sau E = null} (Eroare - date lipsă)
+
+* **Starea conflictelor (Conflict - C):**
+  * **C1** = {nu există suprapunere în listă} (Succes)
+  * **C2** = {există cel puțin o suprapunere în listă} (Eroare conflict)
+
+
+### Clase de echivalență globale:
+
+Pentru a evita mascarea erorilor (Fault Masking), avem un test perfect valid, iar pentru restul testelor izolăm câte o singură clasă invalidă, păstrând restul intrărilor valide.
 
 | ID | Combinație | Rezultat Aşteptat (Expected Output) |
-|:---|:---|:---|
-| G1 | (D1, T1, C1) | Succes: Intervalul a fost adăugat. |
-| G2 | (D1, T1, C2) | Conflict: Există deja un interval setat în această perioadă. |
-| G3 | (D1, T2, C1) | Eroare: Ora de început trebuie să fie strict mai mică... |
-| G4 | (D1, T2, C2) | Eroare: Ora de început trebuie să fie strict mai mică... |
-| G5 | (D1, T3, C1) | Eroare: Ora de început trebuie să fie strict mai mică... |
-| G6 | (D1, T3, C2) | Eroare: Ora de început trebuie să fie strict mai mică... |
-| G7 | (D2, T1, C1) | Eroare: Ziua săptămânii este obligatorie. |
-| G8 | (D2, T1, C2) | Eroare: Ziua săptămânii este obligatorie. |
-| G9 | (D2, T2, C1) | Eroare: Ziua săptămânii este obligatorie. |
-| G10 | (D2, T2, C2) | Eroare: Ziua săptămânii este obligatorie. |
-| G11 | (D2, T3, C1) | Eroare: Ziua săptămânii este obligatorie. |
-| G12 | (D2, T3, C2) | Eroare: Ziua săptămânii este obligatorie. |
-| G13 | (D3, T1, C1) | Eroare: Format invalid/Eroare tip dată. |
-| G14 | (D3, T1, C2) | Eroare: Format invalid/Eroare tip dată. |
-| G15 | (D3, T2, C1) | Eroare: Format invalid/Eroare tip dată. |
-| G16 | (D3, T2, C2) | Eroare: Format invalid/Eroare tip dată. |
-| G17 | (D3, T3, C1) | Eroare: Format invalid/Eroare tip dată. |
-| G18 | (D3, T3, C2) | Eroare: Format invalid/Eroare tip dată. |
-
+| :--- | :--- | :--- |
+| **G1** | (D1, T1, C1) | Succes: Intervalul a fost adăugat. |
+| **G2** | (D2, T1, C1) | Eroare: Ziua săptămânii este obligatorie. |
+| **G3** | (D1, T2, C1) | Eroare: Ora de început trebuie să fie strict mai mică... |
+| **G4** | (D1, T3, C1) | Eroare: Ora de început trebuie să fie strict mai mică... |
+| **G5** | (D1, T1, C2) | Conflict: Există deja un interval setat în această perioadă. |
 ---
 
 ### 2. Analiza valorilor de frontieră (Boundary Value Analysis)
