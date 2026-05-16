@@ -93,10 +93,6 @@ Testarea a fost organizată în patru etape complementare:
 
 Clasele de echivalență identificate pentru cei trei parametri și starea listei sunt detaliate în fișierul [`TestareFunctionala.md`](./TestareFunctionala.md).
 
-**Sumar clase globale:** 18 combinații D × T × C, acoperind toate scenariile valide și invalide.
-
-**Observație privind D3 (format invalid enum):** `DayOfWeek` fiind un enum Java, valorile invalide nu pot fi transmise direct la compilare. Testele G13–G18 simulează acest scenariu prin `DayOfWeek.valueOf("Mondayy")` care aruncă `IllegalArgumentException`, verificat cu `assertThrows`.
-
 ### 4.2 Analiza valorilor de frontieră
 
 Interval de referință utilizat: `[10:00 – 11:00]`
