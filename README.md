@@ -41,10 +41,18 @@
 ```
 src/
 ├── main/java/org/example/
-│   ├── Main.java               # Clasa principală cu metoda addAvailability
-│   └── Availability.java       # Modelul de date pentru un interval
+│   ├── Main.java             
+│   └── Availability.java      
 └── test/java/org/example/tests/
-    └── MainTest.java           # Suita completă de teste JUnit 5
+    ├── MainTest.java                   # Suita originală de teste JUnit 5
+    ├── MainTestCategorii.java          # Teste pe categorii
+    ├── MainTestConditionCoverage.java  # Teste pentru acoperire condiții
+    ├── MainTestDecisionCoverage.java   # Teste pentru acoperire decizii
+    ├── MainTesteAI.java                # Suita generată de AI
+    ├── MainTesteCircuite.java          # Teste pe circuite (CFG)
+    ├── MainTestFrontiera.java          # Teste de frontieră (BVA)
+    ├── MainTestPartitionare.java       # Teste prin partiționare echivalentă
+    └── MainTestStatementCoverage.java  # Teste pentru acoperire instrucțiuni
 ```
 
 **Metoda testată:**
