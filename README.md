@@ -6,7 +6,7 @@
     - Predescu Andrei (334)
 | | |
 |:--|:--|
-| [Prezentare](./prezentare.pptx) | [Demo](https://youtu.be/zWRsbMo__1A) |
+| [Prezentare](./prezentare.pptx) | [Demo](https://youtu.be/kFzvszkvodQ) |
 | [Testare funcțională](./TestareFunctionala.md) |
 | [Testare structurală](./testareStructurala.md) | |
 
